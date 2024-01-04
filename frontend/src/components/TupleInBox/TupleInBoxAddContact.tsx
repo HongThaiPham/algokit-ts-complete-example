@@ -1,33 +1,35 @@
 /* eslint-disable no-console */
-import { ReactNode, useCallback, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { useWallet } from '@txnlab/use-wallet'
 import { TupleInBox, TupleInBoxClient } from '../../contracts/TupleInBoxClient'
 import { decodeAddress } from 'algosdk'
 import { enqueueSnackbar } from 'notistack'
 
 /* Example usage
-<TupleInBoxSetMyContact
+<TupleInBoxAddContact
   buttonClass="btn m-2"
   buttonLoadingNode={<span className="loading loading-spinner" />}
-  buttonNode="Call setMyContact"
+  buttonNode="Call addContact"
   typedClient={typedClient}
+  addr={addr}
   name={name}
   phone={phone}
 />
 */
-type TupleInBoxSetMyContactArgs = TupleInBox['methods']['setMyContact(string,string)void']['argsObj']
+type TupleInBoxAddContactArgs = TupleInBox['methods']['addContact(address,string,string)void']['argsObj']
 
 type Props = {
   buttonClass: string
   buttonLoadingNode?: ReactNode
   buttonNode: ReactNode
   typedClient: TupleInBoxClient | null
-  name: TupleInBoxSetMyContactArgs['name']
-  phone: TupleInBoxSetMyContactArgs['phone']
+  addr: TupleInBoxAddContactArgs['addr']
+  name: TupleInBoxAddContactArgs['name']
+  phone: TupleInBoxAddContactArgs['phone']
   disabled?: boolean
 }
 
-const TupleInBoxSetMyContact = (props: Props) => {
+const TupleInBoxAddContact = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
@@ -39,11 +41,12 @@ const TupleInBoxSetMyContact = (props: Props) => {
       return
     }
     setLoading(true)
-    console.log(`Calling setMyContact`)
+    console.log(`Calling addContact`)
     try {
       enqueueSnackbar('Sending transaction...', { variant: 'info' })
-      const tx = await props.typedClient.setMyContact(
+      const tx = await props.typedClient.addContact(
         {
+          addr: props.addr,
           name: props.name,
           phone: props.phone,
         },
@@ -51,7 +54,7 @@ const TupleInBoxSetMyContact = (props: Props) => {
           boxes: [
             {
               appIndex: 0,
-              name: decodeAddress(sender.addr).publicKey,
+              name: decodeAddress(props.addr).publicKey,
             },
           ],
           sender,
@@ -72,4 +75,4 @@ const TupleInBoxSetMyContact = (props: Props) => {
   )
 }
 
-export default TupleInBoxSetMyContact
+export default TupleInBoxAddContact

@@ -6,8 +6,9 @@ import { useCallback } from 'react'
 
 type Props = {
   appClient: ApplicationClient | undefined
+  disabled?: boolean
 }
-const DispenseToApp: React.FC<Props> = ({ appClient }) => {
+const DispenseToApp: React.FC<Props> = ({ appClient, disabled }) => {
   if (!appClient) return null
   const { activeAddress, signer } = useWallet()
   const sender = { signer, addr: activeAddress! }
@@ -21,9 +22,9 @@ const DispenseToApp: React.FC<Props> = ({ appClient }) => {
       sender,
     })
     enqueueSnackbar(`Transaction sent: ${tx.transaction.txID()}`, { variant: 'success' })
-  }, [appClient])
+  }, [appClient, activeAddress, signer])
   return (
-    <button className="btn btn-neutral" onClick={callMethod}>
+    <button className="btn btn-neutral" onClick={callMethod} disabled={disabled}>
       Dispense to App
     </button>
   )
