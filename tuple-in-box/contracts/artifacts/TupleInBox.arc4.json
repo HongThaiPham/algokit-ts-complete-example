@@ -1,0 +1,105 @@
+{
+  "name": "TupleInBox",
+  "desc": "",
+  "methods": [
+    {
+      "name": "setMyContact",
+      "args": [
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "addContact",
+      "args": [
+        {
+          "name": "addr",
+          "type": "address",
+          "desc": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "phone",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "updateContactField",
+      "args": [
+        {
+          "name": "addr",
+          "type": "address",
+          "desc": ""
+        },
+        {
+          "name": "field",
+          "type": "string",
+          "desc": ""
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "verifyContactName",
+      "args": [
+        {
+          "name": "addr",
+          "type": "address",
+          "desc": ""
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "desc": ""
+        }
+      ],
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      }
+    },
+    {
+      "name": "createApplication",
+      "desc": "",
+      "returns": {
+        "type": "void",
+        "desc": ""
+      },
+      "args": []
+    }
+  ]
+}
