@@ -7,7 +7,13 @@ import { SnackbarProvider } from 'notistack'
 import { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
-import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
+import {
+  getAlgodConfigFromViteEnvironment,
+  getIndexerConfigFromViteEnvironment,
+  getKmdConfigFromViteEnvironment,
+} from './utils/network/getAlgoClientConfigs'
+import TupleInBox from './components/TupleInBox'
+import { getAlgoClient, getAlgoIndexerClient } from '@algorandfoundation/algokit-utils/.'
 
 let providersArray: ProvidersArray
 if (import.meta.env.VITE_ALGOD_NETWORK === '') {
@@ -49,6 +55,18 @@ export default function App() {
   }
 
   const algodConfig = getAlgodConfigFromViteEnvironment()
+  const algodClient = getAlgoClient({
+    server: algodConfig.server,
+    port: algodConfig.port,
+    token: algodConfig.token,
+  })
+
+  const indexerConfig = getIndexerConfigFromViteEnvironment()
+  const indexer = getAlgoIndexerClient({
+    server: indexerConfig.server,
+    port: indexerConfig.port,
+    token: indexerConfig.token,
+  })
 
   const walletProviders = useInitializeProviders({
     providers: providersArray,
@@ -64,13 +82,13 @@ export default function App() {
   return (
     <SnackbarProvider maxSnack={3}>
       <WalletProvider value={walletProviders}>
-        <div className="hero min-h-screen bg-teal-400">
-          <div className="hero-content text-center rounded-lg p-6 max-w-md bg-white mx-auto">
-            <div className="max-w-md">
-              <h1 className="text-4xl">
+        <div>
+          <div className="rounded-lg p-6">
+            <div>
+              <h1 className="text-4xl text-center ">
                 Welcome to <div className="font-bold">AlgoKit 🙂</div>
               </h1>
-              <p className="py-6">
+              <p className="py-6 text-center ">
                 This starter has been generated using official AlgoKit React template. Refer to the resource below for next steps.
               </p>
 
@@ -94,6 +112,8 @@ export default function App() {
                     Transactions Demo
                   </button>
                 )}
+
+                <TupleInBox algodClient={algodClient} indexer={indexer} />
               </div>
 
               <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
